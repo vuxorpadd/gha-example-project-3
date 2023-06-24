@@ -4,8 +4,15 @@ on:
     branches:
       - main
       - dev
+env:
+  MONGODB_CLUSTER_ADDRESS: testadd
+  MONGODB_DB_NAME: testna
 jobs:
   test:
+    env:
+      MONGODB_USERNAME: testusern
+      MONGODB_PASSWORD: testpas
+      PORT: 8080
     environment: testing
     runs-on: ubuntu-latest
     steps:
@@ -19,7 +26,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:XYZ
+        run: npm start & npx wait-on http://127.0.0.1:${{ env.PORT }}
+      - name: Show vars
+        run: |
+          echo "MONGODB_USERNAME: $MONGODB_USERNAME"
+          echo "MONGODB_PASSWORD: $MONGODB_PASSWORD"
+          echo "MONGODB_CLUSTER_ADDRESS: $MONGODB_CLUSTER_ADDRESS"
+          echo "MONGODB_DB_NAME: $MONGODB_DB_NAME"
       - name: Run tests
         run: npm test
       - name: Output information
