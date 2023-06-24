@@ -22,4 +22,6 @@ try {
 
 const database = client.db(dbName);
 
+console.log('Database ready.');
+
 export default database;
